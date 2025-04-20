@@ -1,7 +1,8 @@
 import express from "express";
-// import misRutas from "./router";
+import misRutas from "./router";
 // import { AppDataSource } from "./data-source";
 import morgan from 'morgan';
+import { AppDataSource } from "./config/data-source";
 
 
 export class Server {
@@ -12,26 +13,28 @@ export class Server {
         this.app = express();
         this.port = Number(process.env.PORT) || 4000;
         this.middlewares();
-
-        // this.routes();
-        // this.connectionBd();
+        this.routes();
+        this.connectionBd();
     }
-
-
-
-
-
     // routes() {
     //     this.app.use(misRutas);
     // }
 
-    // async connectionBd() {
-    //     await AppDataSource.initialize()
-    //         .then(() => {
-    //             // here you can start to work with your database
-    //         })
-    //         .catch((error) => console.log(error))
-    // }
+
+
+
+
+    routes() {
+        this.app.use(misRutas);
+    }
+
+    async connectionBd() {
+        await AppDataSource.initialize()
+            .then(() => {
+                console.log("database online");
+            })
+            .catch((error) => console.log(error))
+    }
 
     middlewares() {
         // this.app.use(express.urlencoded({ extended: true }));
@@ -43,8 +46,6 @@ export class Server {
 
 
     listen() {
-
-
         this.app.listen(this.port, () => {
             console.log("Escuchando el puerto: ", this.port);
         });

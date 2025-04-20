@@ -1,6 +1,9 @@
 require("dotenv").config();
 import { Server } from "./app";
 
-const server = new Server();
+const startApp = async () => {
+    const server = new Server();
+    server.listen();
+};
 
-server.listen();
+startApp();

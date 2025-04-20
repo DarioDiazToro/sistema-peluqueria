@@ -11,7 +11,7 @@ const base = "/api/v1";
 
 
 routes.use(`${base}/usuarios`, routerUsuarios);
-routes.use(`${base}/usuarios`, authroutes);
+routes.use(`${base}/login`, authroutes);
 
 
 

@@ -14,7 +14,7 @@ export class UsuarioEntity extends BaseEntity {
     @Column({ type: 'varchar', length: 50 })
     rol: string;
 
-    @Column({ type: 'varchar', length: 50 })
+    @Column({ type: 'varchar' })
     password: string;
 
     @Column({ type: 'boolean', default: true })

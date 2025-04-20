@@ -10,7 +10,7 @@ import { schemaLoginUsuario } from "./auth.shema";
 const router = Router();
 
 
-router.post("/login",
+router.post("/",
     [
         joiValidateMiddleware(schemaLoginUsuario)
     ],

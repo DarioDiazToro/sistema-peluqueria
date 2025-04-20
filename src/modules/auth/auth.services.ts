@@ -3,7 +3,7 @@ import bcryptjs from "bcryptjs";
 import { getRespuestaCommon } from "../../common/response.common";
 
 export const loginUsuarioService = async (body: any) => {
-    const { email, password } = body;
+    let { email, password } = body;
 
     const usuario = await UsuarioEntity.findOneBy({ email });
 

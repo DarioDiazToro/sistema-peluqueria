@@ -1,15 +1,13 @@
-// import { Response, Request } from "express";
-// import { loginService } from "./auth.services";
+import { Request, Response } from "express";
+import { respuesta } from "../../common/response.common";
+import { loginUsuarioService } from "./auth.services";
 
-
-
-// export const login = async (req: Request, res: Response) => {
-
-//     const answer = await loginService(req.body);
-
-//     res.status(answer.code).json({
-//         msg: answer.msg,
-//         usuario: answer.data,
-//         token: answer.token
-//     });
-// };
+export const loginUsuario = async (req: Request, res: Response) => {
+    try {
+        const resultado = await loginUsuarioService(req.body);
+        respuesta(res, resultado.code, resultado.success, resultado.message, resultado.data);
+    } catch (error: any) {
+        console.error("Error loginUsuarioController ====>", error);
+        respuesta(res, 500, false, `Error inesperado: ${error.message}`, null);
+    }
+};

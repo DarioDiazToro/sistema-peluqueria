@@ -19,5 +19,13 @@ export class UsuarioEntity extends BaseEntity {
 
     @Column({ type: 'boolean', default: true })
     activo: boolean;
+
+    @Column({ type: 'varchar' })
+    apellidos: string;
+
+    @Column({ type: 'int' })
+    telefono: number;
 };
+
+
 

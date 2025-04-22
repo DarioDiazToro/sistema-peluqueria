@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { ClienteEntity } from "./cliente"; // importa tu entidad de cliente
 
 @Entity("usuarios")
 export class UsuarioEntity extends BaseEntity {
@@ -25,7 +26,8 @@ export class UsuarioEntity extends BaseEntity {
 
     @Column({ type: 'int' })
     telefono: number;
-};
 
-
-
+    // Relación uno a muchos (un usuario tiene muchos clientes)
+    @OneToMany(() => ClienteEntity, cliente => cliente.usuario)
+    clientes: ClienteEntity[];
+}

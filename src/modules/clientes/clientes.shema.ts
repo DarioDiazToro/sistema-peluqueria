@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const schemaCrearUsuario = Joi.object({
+export const schemaCrearCliente = Joi.object({
     nombres: Joi.string().required(),
     apellidos: Joi.string().required(),
     activo: Joi.boolean(),
@@ -10,7 +10,7 @@ export const schemaCrearUsuario = Joi.object({
     telefono: Joi.string().required().length(10),
 });
 
-export const schemaActualizarUsuario = Joi.object({
+export const schemaActualizarCliente = Joi.object({
     nombres: Joi.string().required(),
     apellidos: Joi.string().required(),
     telefono: Joi.number().required(),

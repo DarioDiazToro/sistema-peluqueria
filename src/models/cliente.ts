@@ -8,6 +8,8 @@ export class ClienteEntity extends BaseEntity {
 
     @Column({ type: 'varchar', length: 15 }) // teléfono como texto
     telefono: string;
+    @Column({ type: 'boolean', default: true })
+    activo: boolean;
 
     // Clave foránea
     @ManyToOne(() => UsuarioEntity, (usuario: { clientes: any; }) => usuario.clientes)

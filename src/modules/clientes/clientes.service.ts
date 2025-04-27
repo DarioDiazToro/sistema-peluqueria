@@ -56,78 +56,51 @@ export const actualizarClienteServiceById = async (id: any, datos: any) => {
 
 };
 
-// export const obtenerUsuarioByIdService = async (id: any) => {
-//     const usuario = await UsuarioEntity.findBy({ id });
+export const obtenerClienteByIdService = async (id: any) => {
+    const usuario = await ClienteEntity.findBy({ id });
 
-//     if (usuario.length === 0) {
-//         return getRespuestaCommon(false, 422, `El usuario con el id ${id} no existe en la base de datos`);
-//     };
+    if (usuario.length === 0) {
+        return getRespuestaCommon(false, 422, `El usuario con el id ${id} no existe en la base de datos`);
+    };
 
+    return getRespuestaCommon(true, 200, `Obtner usuario by id ok`, usuario);
+};
 
-//     if (!usuario[0].activo) {
-//         return getRespuestaCommon(false, 422, `El usuario con el id ${id} se enecuentra inactivo en el sistema`);
-//     };
+export const obtenerClienteService = async (page: number, limit: number) => {
 
-//     return getRespuestaCommon(true, 200, `Obtner usuario by id ok`, usuario);
-// };
+    const [data, total] = await ClienteEntity.findAndCount({
+        skip: (page - 1) * limit,
+        take: limit,
 
-// export const obtenerUsuariosService = async (page: number, limit: number) => {
+    });
 
-//     const [data, total] = await UsuarioEntity.findAndCount({
-//         skip: (page - 1) * limit,
-//         take: limit,
-//         where: { activo: true }
-//     });
+    const totalPages = Math.ceil(total / limit);
 
-//     const totalPages = Math.ceil(total / limit);
-
-//     return getRespuestaCommon(true, 200, "obtener todos ok", { usuarios: data, total, totalPages, currentPage: page })
-// };
+    return getRespuestaCommon(true, 200, "obtener todos ok", { usuarios: data, total, totalPages, currentPage: page })
+};
 
 
-// export const deleteUsuarioByIdService = async (id: any) => {
-//     const item = await UsuarioEntity.findBy({ id });
+export const deleteClienteByIdService = async (id: any) => {
+    const item = await ClienteEntity.findBy({ id });
 
-//     const usuario = item[0];
-//     if (!usuario) {
+    const usuario = item[0];
+    if (!usuario) {
 
-//         return getRespuestaCommon(false, 422, `No existe un usuario con id ${id} en la base de datos`);
-//     };
+        return getRespuestaCommon(false, 422, `No existe un usuario con id ${id} en la base de datos`);
+    };
 
-//     if (!usuario.activo) {
-//         return getRespuestaCommon(true, 200, `El usuario con id ${id} ya se encuentra eliminado`);
-//     };
-//     await UsuarioEntity.update({ id }, { activo: false });
-//     const usuarioEliminado = await UsuarioEntity.findOne({ where: { id } });
-//     return getRespuestaCommon(true, 200, `usuario eliminado ok`, usuarioEliminado);
-// };
+    if (!usuario.activo) {
+        return getRespuestaCommon(true, 200, `El usuario con id ${id} ya se encuentra eliminado`);
+    };
+    await ClienteEntity.update({ id }, { activo: false });
+    const usuarioEliminado = await ClienteEntity.findOne({ where: { id } });
+    return getRespuestaCommon(true, 200, `usuario eliminado ok`, usuarioEliminado);
+};
 
 
 
 
 
-
-// export const actualizarPasswordUsuarioService = async (documento: string, password: string): Promise<IRespuestaFuncion> => {
-
-//     const [usuario] = await UsuarioEntity.findBy({ documento_identificacion: documento });
-//     if (!usuario) {
-//         return getRespuestaCommon(false, 422, `El usuario con documento ${documento} no existe en la base de datos`);
-
-//     };
-
-//     const salt = bcryptjs.genSaltSync();
-
-//     const nuevaPassword = bcryptjs.hashSync(password, salt);
-
-//     const actualizado = await UsuariosEntity.update({ documento_identificacion: documento }, { password: nuevaPassword })
-
-//     if (!actualizado) {
-//         return getRespuestaCommon(false, 422, "No se logro actualizar la contraseña");
-//     };
-
-//     return getRespuestaCommon(true, 200, "Contraseña actualizada");
-
-// };
 
 
 

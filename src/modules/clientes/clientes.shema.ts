@@ -13,5 +13,6 @@ export const schemaCrearCliente = Joi.object({
 export const schemaActualizarCliente = Joi.object({
     telefono: Joi.number().required(),
 
+
 });
 

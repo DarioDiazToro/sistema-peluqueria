@@ -1,5 +1,5 @@
 import { getRespuestaCommon } from "../../common/response.common";
-import { ClienteEntity } from "../../models/cliente";
+import { ClienteEntity } from '../../models/cliente';
 import bcryptjs from "bcryptjs";
 import { UsuarioEntity } from "../../models/usuario";
 
@@ -29,30 +29,32 @@ export const crearClienteService = async (body: any) => {
     };
 };
 
-// export const actualizarUsuarioServiceById = async (id: any, datos: any) => {
+export const actualizarClienteServiceById = async (id: any, datos: any) => {
 
-//     const usuario = await UsuarioEntity.findBy({ id });
+    const usuario = await ClienteEntity.findBy({ id });
+    console.log("2", usuario)
 
 
-//     if (usuario.length === 0) {
-//         return {
-//             msg: `no existe en la BD id- ${id} `,
-//             code: 422,
-//             data: null
-//         };
-//     };
+    if (usuario.length === 0) {
+        return {
+            msg: `no existe en la BD id- ${id} `,
+            code: 422,
+            data: null
+        };
+    };
 
-//     await UsuarioEntity.update(id, datos);
+    await ClienteEntity.update(id, datos);
 
-//     const usuarioActualizado = await UsuarioEntity.findOne({ where: { id } });
+    const usuarioActualizado = await ClienteEntity.findOne({ where: { id } });
+    console.log("usuarioactuliazadp", usuarioActualizado)
 
-//     return {
-//         msg: "actualizar ok",
-//         code: 200,
-//         data: { usuario: usuario, usuarioActualizado }
-//     };
+    return {
+        msg: "actualizar ok",
+        code: 200,
+        data: { usuario: usuario, usuarioActualizado }
+    };
 
-// };
+};
 
 // export const obtenerUsuarioByIdService = async (id: any) => {
 //     const usuario = await UsuarioEntity.findBy({ id });

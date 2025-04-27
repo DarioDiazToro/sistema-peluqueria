@@ -1,8 +1,10 @@
 import { Request, Response, } from "express";
-// import { actualizarUsuarioServiceById, crearUsuarioService, deleteUsuarioByIdService, obtenerUsuarioByIdService, obtenerUsuariosService } from "./clientes.service";
+// import { actualizarUsuarioServiceById, crearUsuarioService, deleteUsuarioByIdService, obtenerUsuarioByIdService, obtenerUsuariosService, actualizarClienteServiceById } from './clientes.service';
 import { respuesta } from "../../common/response.common";
 import { crearClienteService } from "./clientes.service";
+import { number } from "joi";
 
+import { actualizarClienteServiceById } from "./clientes.service"; // importa bien
 
 export const crearUsuario = async (req: Request, res: Response) => {
     try {
@@ -21,24 +23,32 @@ export const crearUsuario = async (req: Request, res: Response) => {
 };
 
 
-// export const actualizarUsuarioById = async (req: Request, res: Response) => {
+export const actualizarClienteById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const data = req.body;
 
-//     try {
+        console.log("1", data);
 
-//         const { id } = req.params;
-//         const { activo, password, rol, ...data } = req.body
+        // Validación específica del teléfono
+        if (data.telefono) {
+            const telefono = String(data.telefono).trim();
+            if (telefono.length !== 10 || !/^\d+$/.test(telefono)) {
+                return respuesta(res, 400, false, "El teléfono debe tener exactamente 10 dígitos numéricos.", null);
+            }
+            data.telefono = telefono; // normalizado
+        }
 
+        const clienteActualizado = await actualizarClienteServiceById(Number(id), data);
 
-//         const answer = await actualizarUsuarioServiceById(id, data);
-//         respuesta(res, answer.code, true, answer.msg, answer.data);
+        respuesta(res, 200, true, "Cliente actualizado correctamente", clienteActualizado);
+    }
+    catch (error: any) {
+        console.error("Error actualizarClienteController ====>", error.message);
+        respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
+    }
+};
 
-//     }
-//     catch (error: any) {
-//         console.error("Error actualizarUsuarioController====>", error, error.message);
-//         respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
-//         return;
-//     }
-// };
 
 
 

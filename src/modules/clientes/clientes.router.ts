@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { joiValidateMiddleware } from "../../middlewares/Joi.middlewares";
-import { actualizarUsuarioById, crearUsuario, eliminarUsuarioById, obtenerUsuarioById, obtenerUsuarios } from "./clientes.controller";
+import { crearUsuario } from "./clientes.controller";
 import { schemaCrearCliente } from "./clientes.shema";
+
+
 
 
 

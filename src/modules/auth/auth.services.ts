@@ -20,10 +20,7 @@ export const loginUsuarioService = async (body: any) => {
     }
 
     // Aquí puedes incluir un token si usas JWT
-    const token = await generarJWT({ id: usuario.id });
-
-    console.log(token)
-
+    const token = await generarJWT({ id: usuario.id, usuario: email });
     return getRespuestaCommon(true, 200, "Login exitoso", {
         id: usuario.id,
         nombres: usuario.nombres,

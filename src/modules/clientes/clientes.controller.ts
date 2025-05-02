@@ -1,8 +1,8 @@
 import { Request, Response, } from "express";
-// import { actualizarUsuarioServiceById, crearUsuarioService, deleteUsuarioByIdService, obtenerUsuarioByIdService, obtenerUsuariosService } from "./clientes.service";
+// import { actualizarUsuarioServiceById, crearUsuarioService, deleteUsuarioByIdService, obtenerUsuarioByIdService, obtenerUsuariosService, actualizarClienteServiceById } from './clientes.service';
 import { respuesta } from "../../common/response.common";
-import { crearClienteService } from "./clientes.service";
-
+import { crearClienteService, deleteClienteByIdService, obtenerClienteByIdService, obtenerClienteService } from "./clientes.service";
+import { actualizarClienteServiceById } from "./clientes.service"; // importa bien
 
 export const crearUsuario = async (req: Request, res: Response) => {
     try {
@@ -21,69 +21,76 @@ export const crearUsuario = async (req: Request, res: Response) => {
 };
 
 
-// export const actualizarUsuarioById = async (req: Request, res: Response) => {
-
-//     try {
-
-//         const { id } = req.params;
-//         const { activo, password, rol, ...data } = req.body
+export const actualizarClienteById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const data = req.body;
 
 
-//         const answer = await actualizarUsuarioServiceById(id, data);
-//         respuesta(res, answer.code, true, answer.msg, answer.data);
+        // Validación específica del teléfono
+        if (data.telefono) {
+            const telefono = String(data.telefono).trim();
+            if (telefono.length !== 10 || !/^\d+$/.test(telefono)) {
+                return respuesta(res, 400, false, "El teléfono debe tener exactamente 10 dígitos numéricos.", null);
+            }
+            data.telefono = telefono; // normalizado
+        }
 
-//     }
-//     catch (error: any) {
-//         console.error("Error actualizarUsuarioController====>", error, error.message);
-//         respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
-//         return;
-//     }
-// };
+        const clienteActualizado = await actualizarClienteServiceById(Number(id), data);
+
+        respuesta(res, 200, true, "Cliente actualizado correctamente", clienteActualizado);
+    }
+    catch (error: any) {
+        console.error("Error actualizarClienteController ====>", error.message);
+        respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
+    }
+};
 
 
 
-// export const obtenerUsuarios = async (req: Request, res: Response) => {
 
-//     try {
+export const obtenerClientes = async (req: Request, res: Response) => {
 
-//         const page = parseInt(req.query.page as string) || 1;
-//         const limit = parseInt(req.query.limit as string) || 10;
+    try {
+
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
 
 
-//         const answer = await obtenerUsuariosService(page, limit);
-//         respuesta(res, answer.code, answer.success, answer.message, answer.data);
-//     } catch (error: any) {
-//         console.error("Error obtenerUsuariosController====>", error, error.message);
-//         respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
-//     }
+        const answer = await obtenerClienteService(page, limit);
+        respuesta(res, answer.code, answer.success, answer.message, answer.data);
+    } catch (error: any) {
+        console.error("Error obtenerUsuariosController====>", error, error.message);
+        respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
+    }
 
-// };
+};
 
-// export const obtenerUsuarioById = async (req: Request, res: Response) => {
+export const obtenerClienteById = async (req: Request, res: Response) => {
 
-//     try {
+    try {
 
-//         const { id } = req.params;
-//         const answer = await obtenerUsuarioByIdService(Number(id));
-//         respuesta(res, answer.code, answer.success, answer.message, answer.data);
-//     } catch (error: any) {
-//         console.error("Error obtenerUsuariosbyidController====>", error, error.message);
-//         respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
-//     }
+        const { id } = req.params;
+        const answer = await obtenerClienteByIdService(Number(id));
+        respuesta(res, answer.code, answer.success, answer.message, answer.data);
+    } catch (error: any) {
+        console.error("Error obtenerUsuariosbyidController====>", error, error.message);
+        respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
+    }
 
-// };
+};
 
-// export const eliminarUsuarioById = async (req: Request, res: Response) => {
+export const eliminarClienteById = async (req: Request, res: Response) => {
 
-//     try {
-//         const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-//         const answer = await deleteUsuarioByIdService(Number(id));
-//         respuesta(res, answer.code, answer.success, answer.message, answer.data);
-//     } catch (error: any) {
-//         console.error("Error eliminarUsuariosController====>", error, error.message);
-//         respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
-//     }
+        const answer = await deleteClienteByIdService(Number(id));
+        respuesta(res, answer.code, answer.success, answer.message, answer.data);
+    } catch (error: any) {
+        console.error("Error eliminarUsuariosController====>", error, error.message);
+        respuesta(res, 422, false, `Error inesperado ${error.message}`, null);
+    }
 
-// };
+};
 

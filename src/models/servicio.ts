@@ -21,6 +21,6 @@ export class ServicioEntity extends BaseEntity {
     @Column({ type: 'varchar', length: 50 })
     valor: string;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', default: "Pendiente" })
     estado: string
 };

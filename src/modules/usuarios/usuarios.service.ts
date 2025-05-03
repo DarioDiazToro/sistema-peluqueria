@@ -5,8 +5,10 @@ import bcryptjs from "bcryptjs";
 
 export const crearUsuarioService = async (body: any) => {
 
+
     const usuario = await UsuarioEntity.create(body);
     const { password } = usuario;
+
 
     const salt = bcryptjs.genSaltSync();
     usuario.password = bcryptjs.hashSync(password, salt);
